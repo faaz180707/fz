@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTL | Global Trade Logistics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --maroon: #6b1520;
+    --deep-red: #8b1a2b;
+    --orange: #e8852e;
+    --orange-light: #f0a050;
+    --white: #ffffff;
+    --gray: #a0a0a0;
+    --light-gray: #d0d0d0;
+    --section-bg: #0d0d0d;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===================== NAVBAR ===================== */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 18px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.4s, padding 0.4s, box-shadow 0.4s;
+  }
+
+  .navbar.scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 12px 60px;
+    box-shadow: 0 2px 30px rgba(0,0,0,0.5);
+  }
+
+  .nav-logo {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--orange); }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--light-gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--orange);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--orange) !important;
+    color: var(--black) !important;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 700 !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+  }
+
+  .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(232, 133, 46, 0.4);
+  }
+
+  .nav-cta::after { display: none !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .hamburger span {
+    width: 28px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s;
+  }
+
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  /* ===================== HERO ===================== */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(107, 21, 32, 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(232, 133, 46, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(139, 26, 43, 0.2) 0%, transparent 70%),
+      var(--black);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(80px, 80px); }
+  }
+
+  .hero-particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--orange);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 8s infinite;
+  }
+
+  @keyframes particleFloat {
+    0% { opacity: 0; transform: translateY(100vh); }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-10vh); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid rgba(232, 133, 46, 0.4);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--orange), var(--orange-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--gray);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    padding: 16px 40px;
+    background: var(--orange);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(232, 133, 46, 0.35);
+  }
+
+  .btn-outline {
+    padding: 16px 40px;
+    background: transparent;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    transform: translateY(-3px);
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 80px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--orange);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.5s forwards;
+  }
+
+  .scroll-indicator span {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--orange), transparent);
+    animation: scrollBounce 2s infinite;
+  }
+
+  @keyframes scrollBounce {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.5); opacity: 0.5; }
+  }
+
+  /* ===================== SECTIONS COMMON ===================== */
+  section { padding: 120px 60px; }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .section-desc {
+    font-size: 1.05rem;
+    color: var(--gray);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===================== ABOUT ===================== */
+  .about {
+    background: var(--section-bg);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-visual {
+    position: relative;
+    height: 480px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .about-visual-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, var(--maroon), var(--black));
+    border-radius: 8px;
+  }
+
+  .about-visual-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-logo-text {
+    font-size: 7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.06);
+    letter-spacing: 10px;
+  }
+
+  .about-exp {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(232, 133, 46, 0.9);
+    padding: 20px 28px;
+    border-radius: 6px;
+  }
+
+  .about-exp-num {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1;
+  }
+
+  .about-exp-text {
+    font-size: 0.8rem;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .about-feat {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    transition: border-color 0.3s;
+  }
+
+  .about-feat:hover {
+    border-color: var(--orange);
+  }
+
+  .about-feat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .about-feat h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .about-feat p {
+    font-size: 0.8rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* ===================== SERVICES ===================== */
+  .services {
+    background: var(--black);
+  }
+
+  .services-header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .services-header .section-desc {
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .service-card {
+    position: relative;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    transition: all 0.4s;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--deep-red));
+    transform: scaleX(0);
+    transition: transform 0.4s;
+    transform-origin: left;
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(232, 133, 46, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .service-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(232, 133, 46, 0.15), rgba(107, 21, 32, 0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .service-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .service-num {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.03);
+    line-height: 1;
+  }
+
+  /* ===================== WHY GTL (mini section) ===================== */
+  .why-section {
+    background: var(--section-bg);
+    text-align: center;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    max-width: 1000px;
+    margin: 60px auto 0;
+  }
+
+  .why-item {
+    text-align: center;
+  }
+
+  .why-num {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .why-label {
+    font-size: 0.85rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* ===================== CONTACT ===================== */
+  .contact {
+    background: var(--black);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 30px;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .contact-item-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: rgba(232, 133, 46, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .contact-item h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .contact-item p {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+  }
+
+  .social-link:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    transform: translateY(-3px);
+  }
+
+  /* ===================== QUOTE FORM ===================== */
+  .quote-form {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 40px;
+  }
+
+  .quote-form h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .quote-form > p {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--light-gray);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    outline: none;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--orange);
+  }
+
+  .form-group select option {
+    background: var(--dark);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-submit {
+    width: 100%;
+    padding: 16px;
+    margin-top: 8px;
+  }
+
+  /* ===================== FOOTER ===================== */
+  .footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 60px 60px 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-brand .nav-logo {
+    font-size: 1.6rem;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 300px;
+  }
+
+  .footer-col h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-col a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+
+  .footer-col a:hover { color: var(--orange); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 50px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 80px 24px; }
+    .navbar { padding: 16px 24px; }
+    .navbar.scrolled { padding: 12px 24px; }
+
+    .nav-links {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 75%;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+      transition: right 0.4s;
+    }
+
+    .nav-links.open { right: 0; }
+    .hamburger { display: flex; }
+
+    .hero-stats { gap: 30px; flex-wrap: wrap; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-visual { height: 300px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { gap: 20px; }
+    .stat-number { font-size: 2rem; }
+    .about-features { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar" id="navbar">
+  <a href="#hero" class="nav-logo">GT<span>L</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero" onclick="closeNav()">Home</a></li>
+    <li><a href="#about" onclick="closeNav()">About</a></li>
+    <li><a href="#services" onclick="closeNav()">Services</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+    <li><a href="#quote" class="nav-cta" onclick="closeNav()">Get a Quote</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">30 Years of Proven Expertise</div>
+    <h1>Moving the World's<br><span class="highlight">Heaviest Cargo</span></h1>
+    <p class="hero-sub">Global Trade Logistics delivers heavy transportation, bulk logistics, project cargo, and warehousing solutions across continents with precision and reliability.</p>
+    <div class="hero-btns">
+      <a href="#quote" class="btn-primary">Get a Quote</a>
+      <a href="#services" class="btn-outline">Our Services</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number" data-count="30">0</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-count="50">0</div>
+        <div class="stat-label">Countries Served</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-count="5000">0</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-visual-bg"></div>
+      <div class="about-visual-overlay">
+        <div class="about-logo-text">GTL</div>
+      </div>
+      <div class="about-exp">
+        <div class="about-exp-num">30+</div>
+        <div class="about-exp-text">Years of Excellence</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="section-tag">About Us</span>
+      <h2 class="section-title">Built on Three Decades of Trust</h2>
+      <p class="section-desc">Global Trade Logistics (GTL) has been a leader in heavy transportation and bulk logistics for over 30 years. We specialize in moving oversized, overweight, and complex cargo across the globe with tailored solutions for every challenge.</p>
+      <p class="section-desc" style="margin-top: 16px;">Our expertise spans project logistics for industrial and infrastructure developments, comprehensive warehousing services, and end-to-end supply chain management — ensuring your cargo arrives safely, on time, every time.</p>
+
+      <div class="about-features">
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9878;</div>
+          <h4>Safety First</h4>
+          <p>Industry-leading safety protocols for every shipment</p>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9789;</div>
+          <h4>24/7 Operations</h4>
+          <p>Round-the-clock monitoring and support globally</p>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#9733;</div>
+          <h4>Certified Team</h4>
+          <p>Expert professionals with international certifications</p>
+        </div>
+        <div class="about-feat">
+          <div class="about-feat-icon">&#10148;</div>
+          <h4>Custom Solutions</h4>
+          <p>Tailored logistics plans for every project</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <span class="section-tag">What We Do</span>
+    <h2 class="section-title">Our Core Services</h2>
+    <p class="section-desc">Comprehensive logistics solutions designed for the most demanding cargo requirements in the world.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">&#9951;</div>
+      <h3>Heavy Transportation</h3>
+      <p>Specialized in moving oversized and overweight cargo with custom-engineered transport solutions, route planning, and escort services for safe delivery.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">&#9875;</div>
+      <h3>Bulk Logistics</h3>
+      <p>Efficient handling and transportation of bulk commodities via road, rail, and sea — optimized for volume, speed, and cost-effectiveness.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">&#9881;</div>
+      <h3>Project Logistics</h3>
+      <p>End-to-end management of complex project cargo for energy, infrastructure, and industrial sectors — from planning to final mile delivery.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-icon">&#9638;</div>
+      <h3>Warehousing</h3>
+      <p>Secure, modern warehousing facilities with inventory management, order fulfillment, and distribution services tailored to your operations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHY GTL ===================== -->
+<section class="why-section">
+  <div class="reveal">
+    <span class="section-tag">Why Choose GTL</span>
+    <h2 class="section-title">Numbers That Speak</h2>
+  </div>
+  <div class="why-grid reveal">
+    <div class="why-item">
+      <div class="why-num" data-count="30">0</div>
+      <div class="why-label">Years Experience</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num" data-count="500">0</div>
+      <div class="why-label">Clients Worldwide</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num" data-count="5000">0</div>
+      <div class="why-label">Projects Completed</div>
+    </div>
+    <div class="why-item">
+      <div class="why-num" data-count="99">0</div>
+      <div class="why-label">% On-Time Delivery</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT + QUOTE ===================== -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <span class="section-tag">Get in Touch</span>
+      <h2 class="section-title">Let's Move Your Cargo</h2>
+      <p class="section-desc">Ready to discuss your logistics needs? Reach out to us — our team is available around the clock to assist.</p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9742;</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+971-XX-XXX-XXXX</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9993;</div>
+          <div>
+            <h4>Email</h4>
+            <p>info@globaltradelogistics.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">&#9873;</div>
+          <div>
+            <h4>Head Office</h4>
+            <p>Your Office Address Here</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="https://www.instagram.com/global_trade_logistics" target="_blank" rel="noopener" class="social-link" title="Instagram">&#10070;</a>
+      </div>
+    </div>
+
+    <div class="reveal" id="quote">
+      <div class="quote-form">
+        <h3>Request a Quote</h3>
+        <p>Fill in the details and we'll get back to you within 24 hours.</p>
+        <form id="quoteForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" placeholder="+971 XX XXX XXXX">
+            </div>
+            <div class="form-group">
+              <label>Company</label>
+              <input type="text" placeholder="Company name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Service Required</label>
+            <select required>
+              <option value="" disabled selected>Select a service</option>
+              <option>Heavy Transportation</option>
+              <option>Bulk Logistics</option>
+              <option>Project Logistics</option>
+              <option>Warehousing</option>
+              <option>Multiple Services</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Project Details</label>
+            <textarea rows="4" placeholder="Tell us about your cargo and requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary form-submit">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo">GT<span>L</span></a>
+      <p>Global Trade Logistics — your trusted partner in heavy transportation, bulk logistics, and project cargo for over 30 years.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Heavy Transportation</a></li>
+        <li><a href="#services">Bulk Logistics</a></li>
+        <li><a href="#services">Project Logistics</a></li>
+        <li><a href="#services">Warehousing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/global_trade_logistics" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2024 Global Trade Logistics. All rights reserved.</span>
+    <span>GTL | Global Transport & Logistics</span>
+  </div>
+</footer>
+
+<script>
+  // ===================== NAVBAR =====================
+  const navbar = document.getElementById('navbar');
+  const navLinks = document.getElementById('navLinks');
+  const hamburger = document.getElementById('hamburger');
+
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  function toggleNav() {
+    navLinks.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  }
+
+  function closeNav() {
+    navLinks.classList.remove('open');
+    hamburger.classList.remove('active');
+  }
+
+  // ===================== PARTICLES =====================
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (6 + Math.random() * 6) + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    particlesContainer.appendChild(p);
+  }
+
+  // ===================== SCROLL REVEAL =====================
+  const reveals = document.querySelectorAll('.reveal');
+
+  function checkReveal() {
+    reveals.forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', checkReveal);
+  window.addEventListener('load', checkReveal);
+
+  // ===================== COUNTER ANIMATION =====================
+  function animateCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    counters.forEach(counter => {
+      const rect = counter.getBoundingClientRect();
+      if (rect.top < window.innerHeight && !counter.dataset.animated) {
+        counter.dataset.animated = 'true';
+        const target = parseInt(counter.dataset.count);
+        const duration = 2000;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = Math.floor(target * ease).toLocaleString();
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = target.toLocaleString() + '+';
+          }
+        }
+        requestAnimationFrame(update);
+      }
+    });
+  }
+
+  window.addEventListener('scroll', animateCounters);
+  window.addEventListener('load', animateCounters);
+
+  // ===================== FORM =====================
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const originalText = btn.textContent;
+    btn.textContent = 'Submitted Successfully!';
+    btn.style.background = '#27ae60';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // ===================== SMOOTH NAV ACTIVE STATE =====================
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 120;
+      if (window.scrollY >= top) {
+        current = section.getAttribute('id');
+      }
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = '';
+      if (a.getAttribute('href') === '#' + current && !a.classList.contains('nav-cta')) {
+        a.style.color = 'var(--orange)';
+      }
+    });
+  });
+</script>
+</body>
+</html>
