@@ -256,67 +256,69 @@
   .truck {
     position: absolute;
     bottom: 4px;
+    left: -250px;
+    opacity: 0;
   }
 
   .truck svg { display: block; }
 
   /* Lane 1 trucks - fast, closer, bigger */
-  .t1a { animation: drive-fast 8s linear infinite; }
+  .t1a { animation: drive-fast 7s 0.5s linear infinite backwards; }
   .t1a svg { width: 120px; height: 55px; }
 
-  .t1b { animation: drive-fast 8s 2.5s linear infinite; }
+  .t1b { animation: drive-fast 8s 3.5s linear infinite backwards; }
   .t1b svg { width: 100px; height: 48px; }
 
-  .t1c { animation: drive-fast 8s 5s linear infinite; }
+  .t1c { animation: drive-fast 7.5s 7s linear infinite backwards; }
   .t1c svg { width: 130px; height: 58px; }
 
-  .t1d { animation: drive-med 10s 1s linear infinite; }
+  .t1d { animation: drive-med 9s 1.8s linear infinite backwards; }
   .t1d svg { width: 90px; height: 44px; }
 
-  .t1e { animation: drive-med 10s 6s linear infinite; }
+  .t1e { animation: drive-med 8.5s 9.5s linear infinite backwards; }
   .t1e svg { width: 110px; height: 52px; }
 
   /* Lane 2 trucks - slightly slower, farther, smaller, more faded */
-  .t2a { animation: drive-slow 11s 0.5s linear infinite; }
+  .t2a { animation: drive-slow 10s 2s linear infinite backwards; }
   .t2a svg { width: 90px; height: 42px; }
 
-  .t2b { animation: drive-slow 11s 4s linear infinite; }
+  .t2b { animation: drive-slow 11s 6s linear infinite backwards; }
   .t2b svg { width: 80px; height: 38px; }
 
-  .t2c { animation: drive-med2 9s 2s linear infinite; }
+  .t2c { animation: drive-med2 9.5s 4s linear infinite backwards; }
   .t2c svg { width: 100px; height: 46px; }
 
-  .t2d { animation: drive-slow 11s 7.5s linear infinite; }
+  .t2d { animation: drive-slow 12s 10s linear infinite backwards; }
   .t2d svg { width: 85px; height: 40px; }
 
-  .t2e { animation: drive-med2 9s 5.5s linear infinite; }
+  .t2e { animation: drive-med2 10s 8s linear infinite backwards; }
   .t2e svg { width: 95px; height: 44px; }
 
   @keyframes drive-fast {
-    0% { left: -160px; opacity: 0; }
-    3% { opacity: 0.55; }
-    92% { opacity: 0.55; }
+    0% { left: -250px; opacity: 0; }
+    5% { opacity: 0.55; }
+    90% { opacity: 0.55; }
     100% { left: 110%; opacity: 0; }
   }
 
   @keyframes drive-med {
-    0% { left: -160px; opacity: 0; }
-    3% { opacity: 0.4; }
-    92% { opacity: 0.4; }
+    0% { left: -250px; opacity: 0; }
+    5% { opacity: 0.4; }
+    90% { opacity: 0.4; }
     100% { left: 110%; opacity: 0; }
   }
 
   @keyframes drive-slow {
-    0% { left: -140px; opacity: 0; }
-    4% { opacity: 0.22; }
-    90% { opacity: 0.22; }
+    0% { left: -250px; opacity: 0; }
+    6% { opacity: 0.22; }
+    88% { opacity: 0.22; }
     100% { left: 110%; opacity: 0; }
   }
 
   @keyframes drive-med2 {
-    0% { left: -140px; opacity: 0; }
-    4% { opacity: 0.3; }
-    90% { opacity: 0.3; }
+    0% { left: -250px; opacity: 0; }
+    6% { opacity: 0.3; }
+    88% { opacity: 0.3; }
     100% { left: 110%; opacity: 0; }
   }
 
