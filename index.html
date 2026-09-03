@@ -202,6 +202,83 @@
     100% { opacity: 0; transform: translateY(-10vh); }
   }
 
+  /* TRUCK ANIMATION */
+  .truck-container {
+    position: absolute;
+    bottom: 15%;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .truck-road {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.06) 80%, transparent);
+  }
+
+  .truck-road::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, rgba(232,133,46,0.3) 0px, rgba(232,133,46,0.3) 30px, transparent 30px, transparent 60px);
+    animation: roadDash 1.5s linear infinite;
+  }
+
+  @keyframes roadDash {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-60px); }
+  }
+
+  .truck {
+    position: absolute;
+    bottom: 2px;
+    animation: truckDrive 12s linear infinite;
+    opacity: 0.5;
+  }
+
+  .truck svg {
+    width: 120px;
+    height: 60px;
+  }
+
+  .truck-2 {
+    animation: truckDrive 12s 6s linear infinite;
+    opacity: 0.25;
+  }
+
+  .truck-2 svg {
+    width: 90px;
+    height: 45px;
+  }
+
+  @keyframes truckDrive {
+    0% { left: -150px; opacity: 0; }
+    5% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { left: 110%; opacity: 0; }
+  }
+
+  .truck-2 {
+    animation-name: truckDrive2;
+  }
+
+  @keyframes truckDrive2 {
+    0% { left: -150px; opacity: 0; }
+    5% { opacity: 0.25; }
+    90% { opacity: 0.25; }
+    100% { left: 110%; opacity: 0; }
+  }
+
   .hero-content {
     position: relative;
     z-index: 2;
@@ -1243,6 +1320,52 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-particles" id="particles"></div>
+
+  <!-- ANIMATED TRUCK -->
+  <div class="truck-container">
+    <div class="truck-road"></div>
+    <div class="truck">
+      <svg viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Trailer -->
+        <rect x="0" y="10" width="110" height="50" rx="3" fill="rgba(255,255,255,0.12)" stroke="rgba(232,133,46,0.4)" stroke-width="1"/>
+        <text x="55" y="42" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="rgba(232,133,46,0.5)" letter-spacing="2">GTL</text>
+        <!-- Cab -->
+        <path d="M110 25 L110 60 L155 60 L155 35 L140 25 Z" fill="rgba(255,255,255,0.15)" stroke="rgba(232,133,46,0.4)" stroke-width="1"/>
+        <!-- Window -->
+        <path d="M120 28 L138 28 L150 37 L150 45 L120 45 Z" fill="rgba(232,133,46,0.15)"/>
+        <!-- Wheels -->
+        <circle cx="30" cy="63" r="8" fill="rgba(255,255,255,0.08)" stroke="rgba(232,133,46,0.5)" stroke-width="1.5"/>
+        <circle cx="30" cy="63" r="3" fill="rgba(232,133,46,0.3)"/>
+        <circle cx="85" cy="63" r="8" fill="rgba(255,255,255,0.08)" stroke="rgba(232,133,46,0.5)" stroke-width="1.5"/>
+        <circle cx="85" cy="63" r="3" fill="rgba(232,133,46,0.3)"/>
+        <circle cx="140" cy="63" r="8" fill="rgba(255,255,255,0.08)" stroke="rgba(232,133,46,0.5)" stroke-width="1.5"/>
+        <circle cx="140" cy="63" r="3" fill="rgba(232,133,46,0.3)"/>
+        <!-- Headlight -->
+        <rect x="153" y="42" width="4" height="8" rx="1" fill="rgba(232,133,46,0.6)"/>
+        <!-- Exhaust particles -->
+        <circle cx="-5" cy="55" r="2" fill="rgba(255,255,255,0.05)">
+          <animate attributeName="cx" values="-5;-30" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.15;0" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2;6" dur="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="-5" cy="50" r="1.5" fill="rgba(255,255,255,0.05)">
+          <animate attributeName="cx" values="-5;-25" dur="1.3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.1;0" dur="1.3s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="1.5;5" dur="1.3s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    <div class="truck truck-2">
+      <svg viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="10" width="110" height="50" rx="3" fill="rgba(255,255,255,0.08)" stroke="rgba(232,133,46,0.25)" stroke-width="1"/>
+        <path d="M110 25 L110 60 L155 60 L155 35 L140 25 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(232,133,46,0.25)" stroke-width="1"/>
+        <circle cx="30" cy="63" r="8" fill="rgba(255,255,255,0.05)" stroke="rgba(232,133,46,0.3)" stroke-width="1"/>
+        <circle cx="85" cy="63" r="8" fill="rgba(255,255,255,0.05)" stroke="rgba(232,133,46,0.3)" stroke-width="1"/>
+        <circle cx="140" cy="63" r="8" fill="rgba(255,255,255,0.05)" stroke="rgba(232,133,46,0.3)" stroke-width="1"/>
+        <rect x="153" y="42" width="4" height="8" rx="1" fill="rgba(232,133,46,0.35)"/>
+      </svg>
+    </div>
+  </div>
 
   <div class="hero-content">
     <div class="hero-badge">30 Years of Industry Expertise</div>
