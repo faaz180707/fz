@@ -56,14 +56,25 @@
   }
 
   .nav-logo {
-    font-size: 2rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: var(--white);
+    display: flex;
+    align-items: center;
     text-decoration: none;
   }
 
-  .nav-logo span { color: var(--orange); }
+  .nav-logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: height 0.4s;
+  }
+
+  .navbar.scrolled .nav-logo img {
+    height: 40px;
+  }
+
+  .footer-brand .nav-logo img {
+    height: 60px;
+  }
 
   .nav-links {
     display: flex;
@@ -1214,7 +1225,7 @@
 
 <!-- ===================== NAVBAR ===================== -->
 <nav class="navbar" id="navbar">
-  <a href="#hero" class="nav-logo">GT<span>L</span></a>
+  <a href="#hero" class="nav-logo"><img src="assets/logo.png" alt="GTL - Global Trade Logistics"></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#hero" onclick="closeNav()">Home</a></li>
     <li><a href="#about" onclick="closeNav()">About</a></li>
@@ -1608,7 +1619,7 @@
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#hero" class="nav-logo">GT<span>L</span></a>
+      <a href="#hero" class="nav-logo"><img src="assets/logo.png" alt="GTL - Global Trade Logistics"></a>
       <p>Global Trade Logistics — your trusted partner in heavy transportation, bulk logistics, port operations, and project cargo for over 30 years.</p>
       <p style="margin-top: 12px; font-size: 0.85rem;">UAE &middot; Oman &middot; India</p>
     </div>
